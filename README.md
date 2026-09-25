@@ -146,9 +146,8 @@ This demonstrates that transfer learning is not automatically superior for every
 
 The project also includes a prediction pipeline for classifying individual images.
 
-Example:
+---
 
-```python
 predict_image("path/to/image.jpg")
 
 ---
