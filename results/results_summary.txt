@@ -1,0 +1,17 @@
+Cats vs Dogs - Final Results
+
+Model: CNN Baseline
+
+Test Accuracy: 84.92%
+
+Test Samples: 2500
+Correct Predictions: 2123
+Wrong Predictions: 377
+
+Confusion Matrix:
+
+              Predicted
+              Cat    Dog
+
+Actual Cat    995    255
+Actual Dog    122    1128
