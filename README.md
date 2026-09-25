@@ -153,7 +153,7 @@ predict_image("path/to/image.jpg")
 ---
 
 ## Project Structure
-
+```
 Cats vs Dogs/
 │
 ├── data/
@@ -174,7 +174,7 @@ Cats vs Dogs/
 ├── .gitignore
 ├── requirements.txt
 └── README.md
-
+```
 ---
 
 ## Technologies
