@@ -2,17 +2,18 @@
 
 A deep learning project for binary image classification using PyTorch.
 
-The goal of this project is to build a Convolutional Neural Network (CNN) capable of classifying images as either **Cat** or **Dog**.
+The goal of this project is to build a Convolutional Neural Network (CNN) capable of classifying images as either cats or dogs.
 
 ---
 
 ## Project Overview
 
-This project covers an end-to-end image classification workflow, including:
+This project demonstrates an end-to-end deep learning workflow for image classification.
 
-- Real-world image dataset validation
-- Data cleaning and corrupted image detection
-- Train / validation / test splitting
+The main steps include:
+
+- Dataset validation and corrupted image detection
+- Train, validation, and test splitting
 - Custom PyTorch Dataset
 - Data augmentation
 - CNN architecture design
@@ -32,47 +33,30 @@ The project uses the Microsoft Cats and Dogs Dataset.
 
 After validation:
 
-- 24,998 valid images
-- 4 corrupted/invalid images
-- 12,499 cats
-- 12,499 dogs
+| Category | Count |
+|---|---:|
+| Valid images | 24,998 |
+| Invalid images | 4 |
+| Cats | 12,499 |
+| Dogs | 12,499 |
 
-The dataset was divided into:
+The dataset was split into:
 
 - 80% Training
 - 10% Validation
 - 10% Test
 
-The dataset itself is not included in this repository.
+The original dataset is not included in this repository.
 
 ---
 
-## Model
+## Data Preprocessing
 
-The main model is a custom Convolutional Neural Network built with PyTorch.
+All images were converted to RGB and resized to:
 
-### Architecture
-
-The CNN consists of:
-
-- 3 Convolutional layers
-- ReLU activation functions
-- Max Pooling layers
-- Fully connected layers
-- Final classification layer
-
-Input images are resized to:
-
-`128 × 128 × 3`
-
-The model produces two output classes:
-
-- `0` → Cat
-- `1` → Dog
-
----
-
-## Data Augmentation
+```text
+128 × 128 × 3
+```
 
 Training images were augmented using:
 
@@ -81,7 +65,45 @@ Training images were augmented using:
 
 Validation and test images were only resized and converted to tensors.
 
-Data augmentation was applied only to the training set to help improve generalization.
+---
+
+## CNN Model
+
+The main model is a custom Convolutional Neural Network implemented with PyTorch.
+
+### Architecture
+
+```text
+Input
+  ↓
+Conv2D (3 → 32)
+  ↓
+ReLU
+  ↓
+MaxPool
+  ↓
+Conv2D (32 → 64)
+  ↓
+ReLU
+  ↓
+MaxPool
+  ↓
+Conv2D (64 → 128)
+  ↓
+ReLU
+  ↓
+MaxPool
+  ↓
+Flatten
+  ↓
+Linear (128)
+  ↓
+ReLU
+  ↓
+Linear (2)
+  ↓
+Cat / Dog
+```
 
 ---
 
@@ -91,26 +113,31 @@ The final CNN achieved:
 
 | Metric | Result |
 |---|---:|
-| Test Loss | 0.3420 |
-| Test Accuracy | 84.92% |
+| Test Accuracy | **84.92%** |
+| Test Loss | **0.3420** |
 | Test Samples | 2,500 |
 | Correct Predictions | 2,123 |
 | Incorrect Predictions | 377 |
 
 ### Confusion Matrix
 
-| Actual / Predicted | Cat | Dog |
-|---|---:|---:|
-| Cat | 995 | 255 |
-| Dog | 122 | 1,128 |
+The confusion matrix below shows the model's predictions on the test set.
 
-The model correctly classified 2,123 out of 2,500 test images.
+![Confusion Matrix](results/confusion_matrix.png)
+
+### Model Comparison
+
+The project also explored transfer learning using MobileNetV3-Small.
+
+![Model Comparison](results/model_comparison.png)
 
 ---
 
 ## Error Analysis
 
-Several common patterns were observed among misclassified images:
+Misclassified images were inspected to understand the main sources of error.
+
+Common patterns included:
 
 - Blurry or low-quality images
 - Unusual poses or viewing angles
@@ -118,15 +145,15 @@ Several common patterns were observed among misclassified images:
 - Complex or cluttered backgrounds
 - Visually ambiguous examples
 
-These observations highlight some of the challenges involved in real-world image classification.
+These observations show that image quality, object scale, background complexity, and visual similarity can affect classification performance.
 
 ---
 
 ## Transfer Learning
 
-Transfer learning with MobileNetV3-Small pretrained on ImageNet was also explored.
+MobileNetV3-Small pretrained on ImageNet was also investigated as a transfer learning approach.
 
-Two approaches were investigated:
+Two strategies were explored.
 
 ### Feature Extraction
 
@@ -136,28 +163,39 @@ The pretrained feature extractor was frozen and a new classification layer was t
 
 The final feature blocks were unfrozen and trained with a smaller learning rate.
 
-The experiments showed that the custom CNN achieved higher test accuracy than the fine-tuned MobileNet model in this project.
+The fine-tuned MobileNetV3-Small achieved a test accuracy of **81.40%** in the experiment.
 
-This demonstrates that transfer learning is not automatically superior for every dataset and problem.
+In this project, the custom CNN achieved higher test accuracy than the fine-tuned MobileNet model.
+
+This experiment demonstrates that transfer learning is not automatically superior for every dataset and problem.
 
 ---
 
 ## Single Image Prediction
 
-The project also includes a prediction pipeline for classifying individual images.
+The project includes a reusable prediction pipeline for classifying individual images.
 
----
+Example:
 
+```python
 predict_image("path/to/image.jpg")
+```
+
+Example output:
+
+```text
+Prediction: Dog
+Confidence: 94.31%
+```
 
 ---
 
 ## Project Structure
-```
+
+```text
 Cats vs Dogs/
 │
 ├── data/
-│
 ├── models/
 │
 ├── notebooks/
@@ -165,6 +203,7 @@ Cats vs Dogs/
 │
 ├── results/
 │   ├── confusion_matrix.png
+│   ├── model_comparison.png
 │   └── results_summary.txt
 │
 ├── src/
@@ -175,6 +214,7 @@ Cats vs Dogs/
 ├── requirements.txt
 └── README.md
 ```
+
 ---
 
 ## Technologies
@@ -208,11 +248,12 @@ Through this project, I practiced:
 - Performing error analysis
 - Applying transfer learning
 - Fine-tuning pretrained models
+- Building a reusable image prediction pipeline
 
 ---
 
 ## Author
 
-mstf-dev
+**mstf-dev**
 
 Aspiring Data Analyst | Machine Learning | Data Analysis
